@@ -1,23 +1,10 @@
-
-.tab_navigation {
-  display: flex;
-  justify-content: left;
-  margin: 3px;
-  padding: 10px;
+.btnDiv{
+    display: flex;
+    justify-content: start;
+    gap: 20px;
 }
-
-.right_btn {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: large;
-  font-weight: 600;
-  margin: 0 px;
-  padding: 10px 20px;
- }
-
-.left_btn {
-  background-color: transparent;
+.AtBtn{
+    background-color: transparent;
   border: none;
   cursor: pointer;
   font-size: large;
@@ -26,13 +13,6 @@
   padding: 10px 20px;
 }
 
-.right_btn:hover,
-.left_btn:hover {
- border-bottom: 2px solid #000;
+.AtBtn:hover{
+    border-bottom: 2px solid #000;
 }
-
-
-.active_nav{
- border-bottom: #15224c;
-}
-

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { btnActivities, saveDataApi, tech, trainee } from "../../Api";
+import { btnActivities, saveDataApi, tech, trainee } from "../../Services/Api";
 import stylesAT from "./AllocateTraining.module.css";
 
 const AllocateTraining = () => {
@@ -29,7 +29,7 @@ const AllocateTraining = () => {
 	const handleSubmit = async () => {
 		try {
 			const response = await trainee();
-			const temp = response.map((el) => ({
+			const temp = response.result.map((el) => ({
 				label: el.user_name,
 				value: el.user_id
 			}));
@@ -42,7 +42,7 @@ const AllocateTraining = () => {
 	const fetchTechnologyOptions = async () => {
 		try {
 			const techResponse = await tech();
-			const temp2 = techResponse.map((el) => ({
+			const temp2 = techResponse.result.map((el) => ({
 				label: el.technology,
 				value: el.tech_id
 			}));
@@ -68,7 +68,8 @@ const AllocateTraining = () => {
 
 				if (responseActivites !== null) {
 					const activitiesres = responseActivites;
-					setActivites(activitiesres);
+					console.log("activitiesres",activitiesres)
+					setActivites(activitiesres.result);
 					const initialDueDates = new Array(activitiesres.length).fill("");
 					setActivityDueDates(initialDueDates);
 				} else {
@@ -85,7 +86,7 @@ const AllocateTraining = () => {
 	const handleSave = async () => {
 		if (activites.length > 0) {
 			const dataToSend = {
-				techId: selectedTechnology,
+				tech_id: selectedTechnology,
 				traineeId: selectedTrainee,
 				trainerId: selectedTrainer,
 				activities: activites.map((activity, index) => ({
@@ -97,7 +98,7 @@ const AllocateTraining = () => {
 
 			try {
 				const response = await saveDataApi(dataToSend);
-				if (response.data.isDuplicate === true || response.status !== 200) {
+				if (response.result.data.isDuplicate === true || response.result.status !== 200) {
 					toast.error("The data has already been added.he data has already been added he data has already been added");
 				} else {
 					toast.success("Data saved successfully!");
@@ -122,7 +123,8 @@ const AllocateTraining = () => {
 	const allDueDatesFilled = activityDueDates.every((date) => date.trim() !== "");
 	return (
 		<>
-			<div className={stylesAT.topContainer}>
+			<div className= {stylesAT.topContainer}>
+                <div>
 				{[
 					{
 						name: "Select Trainee",
@@ -150,7 +152,7 @@ const AllocateTraining = () => {
 							}
 						>
 							<option value="">{dropdown.name}</option>
-							{dropdown.options.map((option, optionIndex) => (
+							{dropdown.options?.map((option, optionIndex) => (
 								<option key={optionIndex} value={option.value}>
 									{option.label}
 								</option>
@@ -160,6 +162,7 @@ const AllocateTraining = () => {
 				))}
 				<button className={stylesAT.actBtn} onClick={handleGetActivities}> Get Activities
 				</button>
+                </div>
 			</div>
 			<div className={stylesAT.actBox}>
 				{activites.length > 0 ? (
@@ -183,7 +186,7 @@ const AllocateTraining = () => {
 										<>
 											<td rowSpan={activites.length}
 												className={stylesAT.tdInner}>
-												{trial.map((el) => {
+												{trial?.map((el) => {
 													if (el.value == selectedTrainee) {
 
 														return <>{el.label}</>;
@@ -194,7 +197,7 @@ const AllocateTraining = () => {
 											</td>
 											<td rowSpan={activites.length}
 												className={stylesAT.tdInner}>
-												{trial.map((el) => {
+												{trial?.map((el) => {
 													if (el.value == selectedTrainer) {
 														return <>{el.label}</>;
 													} else {

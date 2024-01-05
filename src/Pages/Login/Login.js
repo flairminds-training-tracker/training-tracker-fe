@@ -1,20 +1,20 @@
+import React, { useState,useEffect } from 'react';
+import Styles from "./Login.module.css";
+import Logo from '../../Assets/Logo.jpg';
 import Cookies from "js-cookie";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../Api";
-import styles from "./Login.module.css";
-
-const Login = ({ setIsLoggedIn }) => {
+import { login } from '../../Services/Api';
+// import Input from '../../Components/Input.js'
+export default function Login({setIsLoggedIn}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async(e) => {
+    e.preventDefault()
     try {
       const response = await login(email, password);
-      const token = response.token;
+      const token = response.result.token;
       localStorage.setItem("token", token);
       Cookies.set("token", token);
 
@@ -24,49 +24,32 @@ const Login = ({ setIsLoggedIn }) => {
       console.error("Error posting data:", error);
     }
   };
-
   return (
-    <div className={styles.main}>
-      <div className={styles.main_container}>
-        <div className={styles.left_form}>
-          <div className={styles.qute}>Flair Minds-Training Tracker Platform</div>
+    <div className={`container-fluid w-full h-full  ${Styles.con}`}>
+    <div className='row '>
+      <div className={` col-7 ${Styles.l}`}>
+        <img src={Logo} className={Styles.logoImg} alt="logo"/>
+      </div>
+      <div className={` col-5  ${Styles.r}`}>
+       <div className={Styles.formContainer}> 
+        <div className={`mt-1  ${Styles.heading} `}>
+          Login
         </div>
-
-        <div className={styles.right_from}>
-          <div className={styles.logo}>Welcome </div>
-          <div className={styles.form}>
-            <form onSubmit={handleSubmit} className={styles.form_main1}>
-              <div className={styles.form_main}>
-                <input
-                  className={styles.input}
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)} placeholder="Email"
-                  required
-                />
-              </div>
-              <div className={styles.form_main}>
-                <input
-                  className={styles.input}
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)} placeholder="Password"
-                  required
-                />
-              </div>
-              <button className={styles.login_button} type="submit">
-                Login
-              </button>
-            </form>
+       
+        <form  onSubmit={handleSubmit}  className={Styles.formSection}>
+          <div className="form-group col-12  mb-3 d-flex flex-column">
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" style={{boxShadow:'none', padding: "0.5rem 1rem"}} onChange={(e) => setEmail(e.target.value)}></input>
+              {/* <Input className={Styles.pss} placeholder="Username or e-mail" style={{boxShadow:'none', padding: "0.5rem 1rem"}}/> */}
           </div>
-        </div>
+          <div className="form-group ">
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" style={{boxShadow:'none', padding: "0.5rem 1rem"}} onChange={(e) => setPassword(e.target.value)}/>
+          </div>
+          <br />
+          <button type="submit" className= {`btn btn-primary col-12 ${Styles.btn1}`}>Submit</button>
+        </form>
+      </div>
       </div>
     </div>
-  );
-};
-
-export default Login;
+  </div>
+  )
+}

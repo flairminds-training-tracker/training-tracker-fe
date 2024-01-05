@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ActiveTrainee from '../../Components/ActiveTrainee/ActiveTrainee';
+import Button from '../../Components/Button/Button';
 import OldTrainee from '../../Components/OldTrainee/OldTrainee';
 import stylesT from "./Trainees.module.css";
 
@@ -13,12 +14,8 @@ return (
     <div className={stylesT.parentTrainee}>
       <div className={stylesT.tabNavigation}>
         <div className={stylesT.buttons}>
-        <button onClick={() => handleTabClick('active')} className={stylesT.leftBtn}>
-          Active
-        </button>
-        <button onClick={() => handleTabClick('old')} className={stylesT.rightBtn}>
-          Old
-        </button>
+         <Button widthParameter='100px' colorParameter='white' backgroundColorParameter=' #141544' onClick={() => handleTabClick('active')}> Active </Button>
+         <Button widthParameter='100px' colorParameter='white' backgroundColorParameter='#141544' onClick={() => handleTabClick('old')} > Old </Button>
         </div>
         <input className={stylesT.input}
         type="text"

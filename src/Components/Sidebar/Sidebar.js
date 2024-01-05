@@ -1,55 +1,53 @@
 import React, { useState } from 'react';
+import styles from './SideBar.module.css';
+import Logo from '../../Assets/Logo.jpg';
 import { NavLink } from 'react-router-dom';
-import logo from '../../Assest/Logo.jpg';
-import styles from './Sidebar.module.css';
 
-const Sidebar = ({children}) => {
 
-  const menuItems = [
-    {
-      path: "/",
-      name: "Dashboard"
-    },
-    {
-      path: "/training",
-      name: "Traning"
-    },
-    {
-      path: "/trainees",
-      name: "Trainees"
-    },
-    {
-      path: "/admin",
-      name: "Admin"
-    }
-  ];
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
+const SideBar = ({children}) => {
+    const[isOpen ,setIsOpen] = useState(false);
+    const toggle = () => setIsOpen (!isOpen);
+    const menuItem=[
+        {
+            path: "/",
+            name: "Dashboard"
+          },
+          {
+            path: "/training",
+            name: "Training"
+          },
+          {
+            path: "/trainees",
+            name: "Trainees"
+          },
+          {
+            path: "/admin",
+            name: "Admin"
+          }
+    ]
     return (
         <>
-        <div style={{width: isOpen ? "200px" : "50px"}} className={styles.container}>
-          <div className={styles.sidebar}>
+        <div className={styles.sidebar} style={{ width: isOpen ? "200px" : "50px" }}>
             <div className={styles.top_section}>
-              <img style={{display: isOpen ? "block" : "none"}} className={styles.logo} src={logo} />
-              <div style={{marginLeft: isOpen ? "50px" : "0px"}} className={styles.bar}>
-                <div onClick={toggle}>=</div>
-              </div>
+                <img style={{ display: isOpen ? "block" : "none" }} className={styles.logo} src={Logo} />
+                <div style={{ marginLeft : isOpen ? "50px" : "0px" }} className={styles.bar}>
+                    <div onClick={toggle}>=</div>
+                </div>
             </div>
             {
-              menuItems.map((items, index) => (
-                <NavLink to={items.path} key={index} className= {styles.link}
-				activeclassName={styles.active}>
-                  <div className={styles.icon}>{items.icon}</div>
-                  <div style={{display: isOpen ? "block" : "none"}} className={styles.link_text}>{items.name}</div>
+          menuItem.map((items, index) => (
+            <NavLink to={items.path} key={index} className= {styles.link}
+            activeclassName={styles.active}>
+              <div className={styles.icon}>{items.icon}</div>
+              <div style={{display: isOpen ? "block" : "none"}} className={styles.link_text}>{items.name}</div>
 
-                </NavLink>
-              )
-            )}
-            </div>
-            <main>{children}</main>
-        </div>
+            </NavLink>
+          )
+        )}
+        </div><main>{children}</main>
         </>
+    
     );
 };
 
-export default Sidebar;
+export default SideBar;

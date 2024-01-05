@@ -1,21 +1,15 @@
-.h2-div {
-  align-items: center;
-  background-color: #15224c;
-  color: white;
-  display: flex;
-  padding: 10px; 
-}
-  
-  .h2 {
-    flex: 1; 
-    font-size: 20px; 
-    text-align: center; 
-  }
 
-  .img-container{
-    margin-right: 10px;
-  }
-  
-  .img{
-    max-width: 50px;
-  }
+.navBg{
+    background-color:#141544;
+    height: 50px;
+    
+    display: flex;
+    justify-content: end;
+
+}
+
+.img{
+    margin-right: 20px;
+    height: 50px;
+    width: 50px;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { fetchTraineeDataOld } from "../../Api";
+import { fetchTraineeDataOld } from "../../Services/Api";
 import stylesOldT from "./OldTrainee.module.css";
+import { Button } from "../Button/Button";
 
 const OldTrainee = ({ searchQuery }) => {
 	const [trainees, setTrainees] = useState([]);
@@ -10,7 +11,7 @@ const OldTrainee = ({ searchQuery }) => {
 	};
 
 	useEffect(() => {
-		fetchDataFromAPI();
+		// fetchDataFromAPI();
 	}, []);
 
 	const filteredTrainees = trainees.filter((trainee) =>

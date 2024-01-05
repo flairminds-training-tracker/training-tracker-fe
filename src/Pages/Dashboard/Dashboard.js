@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchDashboard } from "../../Api";
+import { fetchDashboard } from "../../Services/Api";
 import stylesDash from "./Dashboard.module.css";
 
 const Dashboard = () => {

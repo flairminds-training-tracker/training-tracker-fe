@@ -1,25 +1,22 @@
-import React, { useState } from 'react';
-import AddUser from '../../Components/AddUser/AddUser';
+import React, { useState } from 'react'
+import style from "./Admin.module.css"
 import AllocateTraining from '../../Components/AllocateTraining/AllocateTraining';
-import stylesA from './Admin.module.css';
-
-const Admin = () => {
-	const [activeTab, setActiveTab] = useState("allocateTraining");
+import AddUser from '../../Components/AddUser/AddUser';
+export default function Admin() {
+  const [activeTab, setActiveTab] = useState("allocateTraining");
 	const handleTabClick = (tabName) => {
 		setActiveTab(tabName);
 	};
-
-	return (
-		<div style={{display: "flex", width: "93.3%", flexDirection: "column", overflow: "auto"}}>
-			<div className={ stylesA.tabNavigation}>
-				<div onClick={() => handleTabClick('allocateTraining')} className={stylesA.rightBtn}>
-          Allocate Training
-				</div>
-				<div onClick={() => handleTabClick('addUser')} className={stylesA.leftBtn}>
-          Add User
-				</div>
-			</div>
-			<div className={stylesA.tabContent}>
+  return (
+    <div className='container'>
+      <div className='row'>
+        <div className='col mt-3'>
+          <div className={style.btnDiv}>
+            <button onClick={() => handleTabClick('allocateTraining')} className={style.AtBtn}>Allocate training </button>
+            <button onClick={() => handleTabClick('addUser')} className={style.AtBtn} >Add User</button>
+          </div>
+        <div>
+        <div className={style.tabContent}>
 				{activeTab === 'allocateTraining' && (
 					<AllocateTraining />
 				)}
@@ -27,9 +24,9 @@ const Admin = () => {
 					<AddUser />
 				)}
 			</div>
-			<hr/>
-		</div>
-	);
-};
-
-export default Admin;
+      </div>
+    </div>
+    </div>
+    </div>
+  )
+}
