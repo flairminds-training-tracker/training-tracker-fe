@@ -5,12 +5,14 @@ import Trash from '../../../src/Assets/trash.svg';
 import Button from '../../Components/Button/CustomButton';
 import DisplayCard from '../../Components/DishplayCard/DisplayCard';
 import DisplayBox from '../../Components/DisplayBox/DisplayBox';
+import AddSession from '../../Components/Modals/AddSession/AddSession';
 import AddTopic from '../../Components/Modals/AddTopic';
 import { getCourse } from '../../Services/Api';
 import styles from './LearningSpace.module.css';
 
 export default function LearningSpace() {
 	const [isAddTopicModalOpen, setIsAddTopicModalOpen] = useState(false);
+	const [isAddSessionModalOpen, setIsAddSessionModalOpen ] = useState(false);
 	const [getCourses, setGetCourses] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [activeTab, setActiveTab] = useState('course');
@@ -25,11 +27,15 @@ export default function LearningSpace() {
 	const handleInputChange = (e) => {
 		setNote(e.target.value);
 	};
-
+	const openAddSession = () => {
+		setIsAddSessionModalOpen(true);
+	};
 	const openAddTopic = () => {
 		setIsAddTopicModalOpen(true);
 	};
-
+	const closeAddSession = () => {
+		setIsAddSessionModalOpen(false);
+	};
 	const closeAddTopicModal = () => {
 		setIsAddTopicModalOpen(false);
 	};
@@ -184,7 +190,6 @@ export default function LearningSpace() {
 							</div>
 						</div>
 					)}
-
 					<AddTopic isOpen={isAddTopicModalOpen} onClose={closeAddTopicModal} displayCourse={displayCourse} />
 				</div>
 			)}
@@ -204,9 +209,12 @@ export default function LearningSpace() {
 					{selectedVideoIndex === null ? (
 						<>
 							{isAdmin == 1 && (
-								<div className={styles.btnDiv}>
-									<Button type="button" className="btn btn-primary" onClick={openAddTopic}>+ Add Session</Button>
-								</div>
+								<>
+									<div className={styles.btnDiv}>
+										<Button type="button" className="btn btn-primary" onClick={openAddSession}>+ Add Session</Button>
+									</div>
+									<AddSession isOpen={isAddSessionModalOpen} onClose={closeAddSession} />
+								</>
 							)}
 							<div>
 								<h4 className={styles.allCourses}>All Sessions</h4>

@@ -1,0 +1,88 @@
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fefefe;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    width: 480px;
+    border-radius: 12px;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 200;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #eee;
+    padding: 10px;
+}
+
+.modalTitle {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+}
+
+.modalBody {
+    padding: 20px;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.formControl {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.2);
+}
+
+.submitButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #0056b3;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submitButton:hover {
+    background-color: #004494;
+}
+span{
+    color: red;
+}
+label{
+    text-align: left;
+}
+.radioBtn{
+    display: flex;
+    justify-content: space-around;
+}
