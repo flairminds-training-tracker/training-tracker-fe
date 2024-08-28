@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import ReactPlayer from 'react-player';
+import EditPen from '../../../src/Assets/edit-pen.svg';
+import Trash from '../../../src/Assets/trash.svg';
 import Button from '../../Components/Button/CustomButton';
 import DisplayCard from '../../Components/DishplayCard/DisplayCard';
 import DisplayBox from '../../Components/DisplayBox/DisplayBox';
@@ -11,7 +14,17 @@ export default function LearningSpace() {
 	const [getCourses, setGetCourses] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [activeTab, setActiveTab] = useState('course');
+	const [selectedVideoIndex, setSelectedVideoIndex] = useState(null);
 	const isAdmin = localStorage.getItem('adminToken');
+	const [note, setNote] = useState('');
+	const [notes, setNotes] = useState([]);
+	const [editIndex, setEditIndex] = useState(-1);
+	const [editText, setEditText] = useState('');
+	const [showFullText, setShowFullText] = useState({});
+
+	const handleInputChange = (e) => {
+		setNote(e.target.value);
+	};
 
 	const openAddTopic = () => {
 		setIsAddTopicModalOpen(true);
@@ -35,12 +48,51 @@ export default function LearningSpace() {
 
 	useEffect(() => {
 		displayCourse();
+		setSelectedVideoIndex(null);
+		setNotes([]);
 	}, []);
+
+	const handleDescriptionClick = (index) => {
+		setSelectedVideoIndex(index);
+	};
+
+	const handleAddNote = () => {
+		if (note) {
+			setNotes([note, ...notes]);
+			setNote('');
+		}
+	};
+
+	const handleRemoveNote = (index) => {
+		const newNotes = notes.filter((_, i) => i !== index);
+		setNotes(newNotes);
+	};
+
+	const handleEdit = (index) => {
+		setEditIndex(index);
+		setEditText(notes[index]);
+	};
+
+	const handleEditChange = (e) => {
+		setEditText(e.target.value);
+	};
+
+	const handleSaveEdit = (index) => {
+		const updatedNotes = notes.map((item, i) => {
+			if (i === index) {
+				return editText;
+			}
+			return item;
+		});
+		setNotes(updatedNotes);
+		setEditIndex(-1);
+		setEditText('');
+	};
 
 	const formatDate = (dateString) => {
 		return dateString.substring(0, 10);
 	};
-
+	//date, author, session name, description, notes[], notes-->id,note
 	const links = [
 		{
 			id: "1",
@@ -70,6 +122,17 @@ export default function LearningSpace() {
 			link: "https://stlearningspacesfm001.blob.core.windows.net/uploads/Introduction to AI-20240612_124352-Enregistrement de la réunion.mp4"
 		}
 	];
+
+	const handleToggleFullText = (index) => {
+		setShowFullText((prevState) => ({
+			...prevState,
+			[index]: !prevState[index]
+		}));
+	};
+
+	useEffect(() => {
+		setSelectedVideoIndex(null);
+	}, [activeTab === 'session']);
 
 	return (
 		<>
@@ -126,7 +189,7 @@ export default function LearningSpace() {
 				</div>
 			)}
 
-			{activeTab === 'session' && (
+			{/* {activeTab === 'session' && (
 				<div>
 					<div>
 						<h4 className={styles.allCourses}>All Sessions</h4>
@@ -134,6 +197,92 @@ export default function LearningSpace() {
 					<div className={styles.displayCard}>
 						<DisplayCard links={links}></DisplayCard>
 					</div>
+				</div>
+			)} */}
+			{activeTab === 'session' && (
+				<div className={styles.sessionContainer}>
+					{selectedVideoIndex === null ? (
+						<>
+							{isAdmin == 1 && (
+								<div className={styles.btnDiv}>
+									<Button type="button" className="btn btn-primary" onClick={openAddTopic}>+ Add Session</Button>
+								</div>
+							)}
+							<div>
+								<h4 className={styles.allCourses}>All Sessions</h4>
+							</div>
+							<div>
+								<DisplayCard links={links} onDescriptionClick={handleDescriptionClick} />
+							</div>
+						</>
+					) : (
+						<>
+							<div className={styles.cardContainer}>
+								<div className={styles.videoContent}>
+									<ReactPlayer
+										url={links[selectedVideoIndex].link}
+										width="100%"
+										height="100%"
+										controls={true}
+									/>
+									<div className={styles.cardDescription}>
+										{links[selectedVideoIndex].description}
+									</div>
+								</div>
+								<div className={styles.notes}>
+									<div>
+										<input className={styles.noteInput} type="text" value={note} onChange={handleInputChange}/>
+										<button className={styles.addTask}
+											onClick={handleAddNote}
+										>Add</button>
+									</div>
+									<ul className={styles.addedNotes}>
+										{notes.map((note, index) => (
+											<li key={index} className={styles.listItem}>
+												{editIndex === index ? (
+													<>
+														<input className={styles.noteInput} type="text" value={editText} onChange={handleEditChange} />
+														<button
+															onClick={() => handleSaveEdit(index)}
+															className={styles.addTask}
+														>Save</button>
+													</>
+												) : (
+													<>
+														<span
+															className={`${styles.textContent} ${showFullText[index] ? styles.expand : ''}`}
+															onClick={() => handleToggleFullText(index)}
+														>
+															{showFullText[index] ?
+																note : note.length > 30 ?
+																	`${note.substring(0, 30)}...`
+																	: note}
+														</span>
+														<div className={styles.actionIcons}>
+															<button
+																onClick={() => handleEdit(index)}
+																className={styles.icons}
+															>
+																<img src={EditPen} alt="Edit" />
+															</button>
+															<button
+																onClick={() => handleRemoveNote(index)}
+																className={styles.icons}
+															>
+																<img src={Trash} alt="Delete" />
+															</button>
+														</div>
+													</>
+												)}
+											</li>
+										))}
+									</ul>
+
+								</div>
+							</div>
+						</>
+					)
+					}
 				</div>
 			)}
 		</>
