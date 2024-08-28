@@ -8,7 +8,8 @@ export default function AddSession({ isOpen, onClose }) {
 		sessionName: '',
 		location: '',
 		description: '',
-		author: ''
+		author: '',
+		sessionLink: ''
 	});
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -42,7 +43,8 @@ export default function AddSession({ isOpen, onClose }) {
 			sessionName: '',
 			location: ' ',
 			description: '',
-			author: ''
+			author: '',
+			sessionLink: ''
 		});
 		onClose();
 	};
@@ -61,6 +63,10 @@ export default function AddSession({ isOpen, onClose }) {
 								<div className={styles.formGroup}>
 									<label>Session Name<span className={styles.stare}>*</span></label>
 									<input type="text" className={styles.formControl} name="sessionName" value={formData.sessionName} onChange={handleChange} required />
+								</div>
+								<div className={styles.formGroup}>
+									<label>Session Link<span className={styles.stare}>*</span></label>
+									<input type="url" className={styles.formControl} name="sessionLink" value={formData.sessionLink} onChange={handleChange} />
 								</div>
 								<div className={styles.formGroup}>
 									<label>Author<span className={styles.stare}>*</span></label>
