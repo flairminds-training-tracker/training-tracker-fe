@@ -64,7 +64,7 @@ export default function AddSession({ isOpen, onClose }) {
 								</div>
 								<div className={styles.formGroup}>
 									<label>Author<span className={styles.stare}>*</span></label>
-									<input type="text" className={styles.formControl} name="Author" value={formData.author} onChange={handleChange} required />
+									<input type="text" className={styles.formControl} name="author" value={formData.author} onChange={handleChange} required />
 								</div>
 								<div className={styles.formGroup}>
 									<label>Location</label>
