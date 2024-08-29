@@ -1,8 +1,11 @@
 import axios from 'axios';
 // import Cookies from 'js-cookie';
-const NodeURL = 'http://localhost:9090';
+// const NodeURL = 'http://localhost:9090';
 
 // const NodeURL = 'https://d40vhfq2-9090.inc1.devtunnels.ms';
+const NodeURL = "https://training-tracker-be.vercel.app"
+;
+//Production server
 // const NodeURL = 'https://7x5wt80g-9090.inc1.devtunnels.ms'; //for learning space
 
 // const NodeURL = 'https://fc10m5q8-9091.inc1.devtunnels.ms';
@@ -271,4 +274,29 @@ export const uploadDoc = async (formData) => {
 		console.error('Error in uploadDoc API:', error);
 		throw error;
 	}
+};
+export const deleteData = (id) => {
+	const headers = {
+		'authorization': `Bearer ${localStorage.getItem('token')}`,
+		withCredntials: true,
+		credentials: 'include'
+	};
+
+	return axios.delete(`${NodeURL}/tech/deleteTopic/${id}`, {headers});
+};
+export const addSession = (addData) => {
+	const headers = {
+		'authorization': `Bearer ${localStorage.getItem('token')}`,
+		withCredntials: true,
+		credentials: 'include'
+	};
+	const param = {
+		sessionUrl: addData.sessionUrl,
+		name: addData.name,
+		date: addData.date,
+		speaker: addData.speaker,
+		tagsJson: addData.tagsJson
+	};
+	const response = axios.post(`${NodeURL}/tech/addSessions`, {param}, {headers});
+	return response;
 };

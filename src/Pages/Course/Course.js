@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // import { useNavigate, Link } from 'react-router-dom';
 import Article from '../../Assets/article.png';
 import Back from '../../Assets/back1.png';
+import Delete from '../../Assets/delete.png';
 import EditImg from '../../Assets/edit.png';
 import Practice from '../../Assets/practice.png';
 import Status from '../../Assets/status.png';
@@ -87,7 +88,7 @@ export default function Course() {
 		{lable: "Practice Doc.", key: "Practice", type: "practiceLink", imgsrc: Practice },
 		{lable: "Upload Assignment", key: "Assignments", type: "uploadAssignments", imgsrc: Upload},
 		{lable: "Status", key: "status", type: "dropDown", imgsrc: Status},
-		...(isAdmin == 1 ? [{ lable: "Edit", key: "Edit", imgsrc: EditImg }] : [])
+		...(isAdmin == 1 ? [{ lable: "Edit", key: "Edit", imgsrc: EditImg }, { lable: "Delete", key: "Delete", imgsrc: Delete } ] : [])
 	];
 	const [isAddTopicModalOpen, setIsAddTopicModalOpen] = useState(false);
 

@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
+import { TagsInput } from "react-tag-input-component";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { addSession } from '../../../Services/Api';
 import styles from './AddSession.module.css';
 
 export default function AddSession({ isOpen, onClose }) {
 	const [formData, setFormData] = useState({
 		sessionName: '',
-		location: '',
-		description: '',
-		author: '',
-		sessionLink: ''
+		speaker: '',
+		sessionLink: '',
+		tagsJson: '',
+		date: ''
 	});
+	const [selected, setSelected] = useState([]);
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevData) => ({
@@ -22,17 +25,19 @@ export default function AddSession({ isOpen, onClose }) {
 		e.preventDefault();
 		console.info("Form submitted");
 
-		// const postData = {
-		// 	technology: formData.moduleName,
-		// 	description: formData.description,
-		// 	image: renderLogo
+		const addData = {
+			sessionUrl: formData.sessionLink,
+			name: formData.sessionName,
+			speaker: formData.speaker,
+			date: formData.date,
+			tagsJson: JSON.stringify(selected)
 
-		// };
-		// console.info("Post Data:", postData);
+		};
+		console.info("add Data:", addData);
 
 		try {
-			// const res = await postCourse(postData);
-			// console.info("Response from postCourse API:", res);
+			const res = await addSession(addData);
+			console.info("Response from postCourse API:", res);
 			toast.success("Session added successfully!");
 		} catch (err) {
 			console.error("Error while posting course data:", err);
@@ -41,10 +46,10 @@ export default function AddSession({ isOpen, onClose }) {
 		// displayCourse();
 		setFormData({
 			sessionName: '',
-			location: ' ',
-			description: '',
-			author: '',
-			sessionLink: ''
+			date: ' ',
+			speaker: '',
+			sessionLink: '',
+			tagsJson: ''
 		});
 		onClose();
 	};
@@ -69,16 +74,29 @@ export default function AddSession({ isOpen, onClose }) {
 									<input type="url" className={styles.formControl} name="sessionLink" value={formData.sessionLink} onChange={handleChange} />
 								</div>
 								<div className={styles.formGroup}>
-									<label>Author<span className={styles.stare}>*</span></label>
-									<input type="text" className={styles.formControl} name="author" value={formData.author} onChange={handleChange} required />
+									<label>Speaker<span className={styles.stare}>*</span></label>
+									<input type="text" className={styles.formControl} name="speaker" value={formData.speaker} onChange={handleChange} required />
 								</div>
 								<div className={styles.formGroup}>
-									<label>Location</label>
-									<input type="text" className={styles.formControl} name="location" value={formData.location} onChange={handleChange} required />
+									<label>Date</label>
+									<input type="date" className={styles.formControl} name="date" value={formData.date} onChange={handleChange} required />
 								</div>
 								<div className={styles.formGroup}>
 									<label>Description</label>
 									<textarea className={styles.formControl} name="description" value={formData.description} onChange={handleChange} required />
+								</div>
+								<div className={styles.formGroup}>
+									<label>Tag</label>
+									{/* <pre>{JSON.stringify(selected)}</pre> */}
+									<TagsInput
+										value={selected}
+										onChange={setSelected}
+										name="fruits"
+										placeHolder="enter tag"
+									/>
+									<em>press enter or comma to add new tag</em>
+									{/* <textarea className={styles.formControl}
+									name="tag" value={formData.tag} onChange={handleChange} required /> */}
 								</div>
 								<button type="submit" className={styles.submitButton}>Save changes</button>
 							</form>
