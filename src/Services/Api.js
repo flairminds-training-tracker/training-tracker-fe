@@ -1,5 +1,9 @@
 import axios from 'axios';
 // import Cookies from 'js-cookie';
+<<<<<<< HEAD
+=======
+const NodeURL = "https://training-tracker-be.vercel.app";
+>>>>>>> 7a851ea5781e6527eff93b11df881a786118bf8a
 // const NodeURL = 'http://localhost:9090';
 
 // const NodeURL = 'https://d40vhfq2-9090.inc1.devtunnels.ms';
@@ -191,6 +195,12 @@ export const postCourse = (courseData) => {
 	};
 	return axios.post(`${NodeURL}/tech/addNewCourse`, params, {headers});
 };
+
+export const getSessions = () => {
+	const response = axios.get(`${NodeURL}/tech/getSessions`);
+	return response;
+};
+
 export const getTopic = (id) => {
 	const response = axios.get(`${NodeURL}/tech/getTopics/${id}`);
 	return response;

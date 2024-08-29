@@ -7,7 +7,7 @@ import DisplayCard from '../../Components/DishplayCard/DisplayCard';
 import DisplayBox from '../../Components/DisplayBox/DisplayBox';
 import AddSession from '../../Components/Modals/AddSession/AddSession';
 import AddTopic from '../../Components/Modals/AddTopic';
-import { getCourse } from '../../Services/Api';
+import { getCourse, getSessions } from '../../Services/Api';
 import styles from './LearningSpace.module.css';
 
 export default function LearningSpace() {
@@ -23,6 +23,7 @@ export default function LearningSpace() {
 	const [editIndex, setEditIndex] = useState(-1);
 	const [editText, setEditText] = useState('');
 	const [showFullText, setShowFullText] = useState({});
+	const [sessionData, setSessionData] = useState([]);
 
 	const handleInputChange = (e) => {
 		setNote(e.target.value);
@@ -99,35 +100,43 @@ export default function LearningSpace() {
 		return dateString.substring(0, 10);
 	};
 	//date, author, session name, description, notes[], notes-->id,note
-	const links = [
-		{
-			id: "1",
-			description: "Test Driven development in ReactJS and NodeJS",
-			author: "Ajinkya Jagadale",
-			date: "02 Aug 2024",
-			location: 'Flairminds Software Pvt Ltd',
-			topicsCovered: ['React.js', 'Vitest', 'Jest', 'Nodejs'],
-			link: "https://stlearningspacesfm001.blob.core.windows.net/uploads/Session on Test Driven Development in React and Node JS-20240802_112510-Meeting Recording.mp4"
-		},
-		{
-			id: "2",
-			description: "Google Cloud",
-			author: "Narayan Pisharoty",
-			date: "02 July 2024",
-			location: 'Flairminds Software Pvt Ltd',
-			topicsCovered: ['Cloud', 'Google Cloud', 'Python'],
-			link: "https://stlearningspacesfm001.blob.core.windows.net/uploads/Session on Google Cloud-20240702_072208-Meeting Recording.mp4"
-		},
-		{
-			id: "3",
-			description: "Introduction to AI",
-			author: "Shriman Tiwari",
-			date: "12 June 2024",
-			location: 'Flairminds Software Pvt Ltd',
-			topicsCovered: ['Python', 'AI/ML', 'SQL', 'Clustering'],
-			link: "https://stlearningspacesfm001.blob.core.windows.net/uploads/Introduction to AI-20240612_124352-Enregistrement de la réunion.mp4"
-		}
-	];
+	// const links = [
+	// 	{
+	// 		id: "1",
+	// 		description: "Test Driven development in ReactJS and NodeJS",
+	// 		author: "Ajinkya Jagadale",
+	// 		date: "02 Aug 2024",
+	// 		location: 'Flairminds Software Pvt Ltd',
+	// 		topicsCovered: ['React.js', 'Vitest', 'Jest', 'Nodejs'],
+	// 		link: "https://stlearningspacesfm001.blob.core.windows.net/uploads/Session
+		// on Test Driven Development in React and Node JS-20240802_112510-Meeting Recording.mp4"
+	// 	},
+	// 	{
+	// 		id: "2",
+	// 		description: "Google Cloud",
+	// 		author: "Narayan Pisharoty",
+	// 		date: "02 July 2024",
+	// 		location: 'Flairminds Software Pvt Ltd',
+	// 		topicsCovered: ['Cloud', 'Google Cloud', 'Python'],
+	// 		link: "https://stlearningspacesfm001.blob.core.windows.net/uploads/Session
+	//  on Google Cloud-20240702_072208-Meeting Recording.mp4"
+	// 	},
+	// 	{
+	// 		id: "3",
+	// 		description: "Introduction to AI",
+	// 		author: "Shriman Tiwari",
+	// 		date: "12 June 2024",
+	// 		location: 'Flairminds Software Pvt Ltd',
+	// 		topicsCovered: ['Python', 'AI/ML', 'SQL', 'Clustering'],
+	// 		link: "https://stlearningspacesfm001.blob.core.windows.net/uploads/Introduction
+	//  to AI-20240612_124352-Enregistrement de la réunion.mp4"
+	// 	}
+	// ];
+
+	const getSessionLinks = async() => {
+		const res = await getSessions();
+		setSessionData(res?.data?.result);
+	};
 
 	const handleToggleFullText = (index) => {
 		setShowFullText((prevState) => ({
@@ -138,6 +147,7 @@ export default function LearningSpace() {
 
 	useEffect(() => {
 		setSelectedVideoIndex(null);
+		getSessionLinks();
 	}, [activeTab === 'session']);
 
 	return (
@@ -220,7 +230,7 @@ export default function LearningSpace() {
 								<h4 className={styles.allCourses}>All Sessions</h4>
 							</div>
 							<div>
-								<DisplayCard links={links} onDescriptionClick={handleDescriptionClick} />
+								<DisplayCard links={sessionData} onDescriptionClick={handleDescriptionClick} />
 							</div>
 						</>
 					) : (
@@ -228,13 +238,13 @@ export default function LearningSpace() {
 							<div className={styles.cardContainer}>
 								<div className={styles.videoContent}>
 									<ReactPlayer
-										url={links[selectedVideoIndex].link}
+										url={sessionData[selectedVideoIndex].sessionUrl}
 										width="100%"
 										height="100%"
 										controls={true}
 									/>
 									<div className={styles.cardDescription}>
-										{links[selectedVideoIndex].description}
+										{sessionData[selectedVideoIndex].name}
 									</div>
 								</div>
 								<div className={styles.notes}>
