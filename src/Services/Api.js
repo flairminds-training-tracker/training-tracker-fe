@@ -1,6 +1,7 @@
 import axios from 'axios';
 // import Cookies from 'js-cookie';
-const NodeURL = 'http://localhost:9090';
+const NodeURL = "https://training-tracker-be.vercel.app";
+// const NodeURL = 'http://localhost:9090';
 
 // const NodeURL = 'https://d40vhfq2-9090.inc1.devtunnels.ms';
 // const NodeURL = 'https://7x5wt80g-9090.inc1.devtunnels.ms'; //for learning space
@@ -188,6 +189,12 @@ export const postCourse = (courseData) => {
 	};
 	return axios.post(`${NodeURL}/tech/addNewCourse`, params, {headers});
 };
+
+export const getSessions = () => {
+	const response = axios.get(`${NodeURL}/tech/getSessions`);
+	return response;
+};
+
 export const getTopic = (id) => {
 	const response = axios.get(`${NodeURL}/tech/getTopics/${id}`);
 	return response;
