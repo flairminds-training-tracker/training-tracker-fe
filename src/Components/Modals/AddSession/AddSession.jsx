@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { addSession } from '../../../Services/Api';
 import styles from './AddSession.module.css';
 
-export default function AddSession({ isOpen, onClose }) {
+export default function AddSession({ isOpen, onClose, getSessions }) {
 	const [formData, setFormData] = useState({
 		sessionName: '',
 		speaker: '',
@@ -30,7 +30,7 @@ export default function AddSession({ isOpen, onClose }) {
 			name: formData.sessionName,
 			speaker: formData.speaker,
 			date: formData.date,
-			tagsJson: JSON.stringify(selected)
+			tagsJson: selected
 
 		};
 		console.info("add Data:", addData);
@@ -43,7 +43,7 @@ export default function AddSession({ isOpen, onClose }) {
 			console.error("Error while posting course data:", err);
 			toast.error("Error adding course.");
 		}
-		// displayCourse();
+		getSessions();
 		setFormData({
 			sessionName: '',
 			date: ' ',

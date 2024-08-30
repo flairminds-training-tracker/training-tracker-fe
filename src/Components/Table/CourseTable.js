@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { Tooltip } from 'react-tooltip';
+import DeleteModal from '../../Components/Modals/DeleteModal/DeleteModal';
 import EditModal from '../../Components/Modals/EditModal/EditModal';
-import { deleteData, updateStatusForTopic, uploadDoc } from '../../Services/Api';
+import { updateStatusForTopic, uploadDoc } from '../../Services/Api';
 import styles from './CourseTable.module.css';
 
 const CourseTable = ({ tableHead, tableData, openVideoModal, setYoutubeSrc, setEditData, editData, getTopics, id}) => {
@@ -11,6 +12,8 @@ const CourseTable = ({ tableHead, tableData, openVideoModal, setYoutubeSrc, setE
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 	const [currentIndex, setCurrentIndex] = useState(null);
 	const [selectedFile, setSelectedFile] = useState(null);
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+	const [deleteId, setDeleteId] = useState(null);
 	// const [loading, setLoading] = useState(true);
 
 	const handleEditClick = (rowData, rowIndex) => {
@@ -18,24 +21,32 @@ const CourseTable = ({ tableHead, tableData, openVideoModal, setYoutubeSrc, setE
 		setCurrentIndex(rowIndex);
 		setIsEditModalOpen(true);
 	};
-	const handleDeleteClick = async(rowIndex, row) => {
-		try {
-			console.info(tableData, "tableData");
-			console.info(row, "row");
-			console.info(rowIndex, "rowIndex");
-			console.info(tableData[rowIndex?.topic_id], "tableData[rowIndex]");
-			const id = rowIndex?.topic_id;
-			console.info(id, "lo");
-			// console.info(id, "lololo");
-			const res = await deleteData(id);
-			console.info(res, "for delete");
-			getTopics();
-
-		} catch (err) {
-			console.info(err);
-		}
-
+	const openDeleteModal = (id) => {
+		setIsDeleteModalOpen(true);
+		setDeleteId(id);
 	};
+
+	const closeDeleteModal = () => {
+		setIsDeleteModalOpen(false);
+	};
+	// const handleDeleteClick = async(rowIndex, row) => {
+	// 	try {
+	// 		console.info(tableData, "tableData");
+	// 		console.info(row, "row");
+	// 		console.info(rowIndex, "rowIndex");
+	// 		console.info(tableData[rowIndex?.topic_id], "tableData[rowIndex]");
+	// 		const id = rowIndex?.topic_id;
+	// 		console.info(id, "lo");
+	// 		// console.info(id, "lololo");
+	// 		const res = await deleteData(id);
+	// 		console.info(res, "for delete");
+	// 		getTopics();
+
+	// 	} catch (err) {
+	// 		console.info(err);
+	// 	}
+
+	// };
 
 	const handleEditSubmit = (updatedData) => {
 		console.info(updatedData, 'Updated Data');
@@ -227,7 +238,8 @@ const CourseTable = ({ tableHead, tableData, openVideoModal, setYoutubeSrc, setE
 												src={header.imgsrc}
 												alt="Delete"
 												className={styles.image}
-												onClick={() => handleDeleteClick(row, rowIndex)}
+												// onClick={() => handleDeleteClick(row, rowIndex)}
+												onClick={() => openDeleteModal(row?.topic_id)}
 												style={{ cursor: 'pointer' }}
 												title="Delete"
 											/>
@@ -253,6 +265,7 @@ const CourseTable = ({ tableHead, tableData, openVideoModal, setYoutubeSrc, setE
 				currentIndex={currentIndex}
 				id={id}
 			/>
+			<DeleteModal Open={isDeleteModalOpen} Close={closeDeleteModal} id={deleteId} getTopics={getTopics} />
 			<ToastContainer />
 		</>
 	);

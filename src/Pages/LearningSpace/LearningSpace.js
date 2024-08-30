@@ -223,7 +223,8 @@ export default function LearningSpace() {
 									<div className={styles.btnDiv}>
 										<Button type="button" className="btn btn-primary" onClick={openAddSession}>+ Add Session</Button>
 									</div>
-									<AddSession isOpen={isAddSessionModalOpen} onClose={closeAddSession} />
+									<AddSession isOpen={isAddSessionModalOpen} onClose={closeAddSession}
+										getSession={getSessions} />
 								</>
 							)}
 							<div>

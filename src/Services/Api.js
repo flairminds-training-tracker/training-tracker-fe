@@ -1,9 +1,5 @@
 import axios from 'axios';
 // import Cookies from 'js-cookie';
-<<<<<<< HEAD
-=======
-const NodeURL = "https://training-tracker-be.vercel.app";
->>>>>>> 7a851ea5781e6527eff93b11df881a786118bf8a
 // const NodeURL = 'http://localhost:9090';
 
 // const NodeURL = 'https://d40vhfq2-9090.inc1.devtunnels.ms';
@@ -307,6 +303,7 @@ export const addSession = (addData) => {
 		speaker: addData.speaker,
 		tagsJson: addData.tagsJson
 	};
-	const response = axios.post(`${NodeURL}/tech/addSessions`, {param}, {headers});
+	console.info(param);
+	const response = axios.post(`${NodeURL}/tech/addSessions`, param, {headers});
 	return response;
 };
